@@ -24,7 +24,6 @@ app.get('/bikes/new', function(req,res) {
 
 // POST /bikes - add new bike to data.json
 app.post('/bikes', function(req,res) {
-    console.log(req.body);
     var bikes = JSON.parse(fs.readFileSync('./data.json'));
     bikes.push({brand: req.body.brand, model: req.body.model})
     fs.writeFileSync('./data.json', JSON.stringify(bikes));
@@ -32,20 +31,45 @@ app.post('/bikes', function(req,res) {
 })
 
 
-// GET /bikes/:model - show a specific bike
-app.get('/bikes/:model', function(req,res) {
+// GET /bikes/:bike - show a specific bike
+app.get('/bikes/:bike', function(req,res) {
     var bikes = JSON.parse(fs.readFileSync('./data.json'));
-    var model = req.params.model;
-    if (model > bikes.length) {
-        res.send('That is not a valid bike model');
+    var bike = req.params.model;
+    if (bike > bikes.length) {
+        console.log('That is not a valid bike model to show');
     } else {
-        res.json({bike: bikes[model]});
+        res.json({bike: bikes[bike]});
     }
 })
 
 // PUT /bikes/:bike - update a specific bike
+app.put('/bikes/:bike', function(req,res) {
+    var bikes = JSON.parse(fs.readFileSync('./data.json'));
+    var bike = req.params.model;
+    if (bike > bikes.length) {
+        console.log('That is not a valid bike model to update');
+    } else {
+        // var bike = bikes[model];
+        bikes[bike] = {brand: req.body.brand, model: req.body.model};
+        console.log(bikes[bike]);
+        fs.writeFileSync('./data.json', JSON.stringify(bikes) );
+        res.json(bikes);
+    }
+})
 
 // DELETE /bikes/:bike
+app.delete('/bikes/:bike', function(req,res) {
+    var bikes = JSON.parse(fs.readFileSync('./data.json'));
+    var bike = req.params.model;
+    if (bike > bikes.length) {
+        console.log('You cannot delete that which was never there...');
+    } else {
+        bikes.splice(bike,1);
+        console.log(bikes);
+        fs.writeFileSync('./data.json', JSON.stringify(bikes));
+        res.json(bikes);
+    }
+});
 
 app.listen(3000, function() {
     console.log('server running at 3000');
