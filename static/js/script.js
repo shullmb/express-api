@@ -1,5 +1,6 @@
 $(document).ready( function() {
     console.log('working');
+    // PUT route
     $('form').on('submit', function(e) {
         e.preventDefault();
         var newData = $(this).serialize();
@@ -10,7 +11,20 @@ $(document).ready( function() {
             data: newData
         }).done( function(data) {
             console.log(data);
-            window.location = '/bikes'
+            window.location = '/bikes';
+        })
+    })
+
+    // DELETE route
+    $('a').on('click', function(e) {
+        e.preventDefault();
+        var url = $(this).attr('href');
+        $.ajax({
+            method: 'DELETE',
+            url: url
+        }).done( function(data) {
+            console.log(data);
+            window.location = '/bikes';
         })
     })
 })

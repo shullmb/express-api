@@ -6,9 +6,11 @@
     <body>
         <h1>All the bikes: </h1>
         <ul>
-            <% bikes.forEach( function(bike) { %>
-            <li><%= bike.model %>, <%= bike.brand %></li>
+            <% bikes.forEach( function(bike, i) { %>
+            <li><%= bike.model %>, <%= bike.brand %> <a href="/bikes/<%= i %>">Delete</a></li>
             <% }) %>
         </ul>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="/js/script.js"></script>
     </body>
 </html>
