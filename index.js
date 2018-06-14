@@ -8,7 +8,7 @@ var app = express();
 
 app.use(express.static(path.join(__dirname, 'static')));
 app.set('view engine', 'ejs');
-app.use(bp.urlencoded({extended: false}));
+app.use(bp.urlencoded({extended: true}));
 app.use(ejsLayouts);
 
 // GET /bikes - returns all bikes
@@ -19,13 +19,33 @@ app.get('/bikes', function(req,res) {
 
 // GET /bikes/new - returns a form to get info about new bike
 app.get('/bikes/new', function(req,res) {
-
+    
 })
 
-// POST /bikes - post new bike back to data.json
+// POST /bikes - add new bike to data.json
+app.post('/bikes', function(req,res) {
+    console.log(req.body);
+    var bikes = JSON.parse(fs.readFileSync('./data.json'));
+    bikes.push({brand: req.body.brand, model: req.body.model})
+    fs.writeFileSync('./data.json', JSON.stringify(bikes));
+    res.json(bikes);
+})
 
 
-// GET /bike/:model 
+// GET /bikes/:model - show a specific bike
+app.get('/bikes/:model', function(req,res) {
+    var bikes = JSON.parse(fs.readFileSync('./data.json'));
+    var model = req.params.model;
+    if (model > bikes.length) {
+        res.send('That is not a valid bike model');
+    } else {
+        res.json({bike: bikes[model]});
+    }
+})
+
+// PUT /bikes/:bike - update a specific bike
+
+// DELETE /bikes/:bike
 
 app.listen(3000, function() {
     console.log('server running at 3000');
