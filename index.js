@@ -19,7 +19,7 @@ app.get('/bikes', function(req,res) {
 
 // GET /bikes/new - returns a form to get info about new bike
 app.get('/bikes/new', function(req,res) {
-    
+    // USING POSTMAN FOR NOW
 })
 
 // POST /bikes - add new bike to data.json
@@ -45,13 +45,11 @@ app.get('/bikes/:bike', function(req,res) {
 // PUT /bikes/:bike - update a specific bike
 app.put('/bikes/:bike', function(req,res) {
     var bikes = JSON.parse(fs.readFileSync('./data.json'));
-    var bike = req.params.model;
+    var bike = req.params.bike;
     if (bike > bikes.length) {
         console.log('That is not a valid bike model to update');
     } else {
-        // var bike = bikes[model];
         bikes[bike] = {brand: req.body.brand, model: req.body.model};
-        console.log(bikes[bike]);
         fs.writeFileSync('./data.json', JSON.stringify(bikes) );
         res.json(bikes);
     }
@@ -60,7 +58,7 @@ app.put('/bikes/:bike', function(req,res) {
 // DELETE /bikes/:bike
 app.delete('/bikes/:bike', function(req,res) {
     var bikes = JSON.parse(fs.readFileSync('./data.json'));
-    var bike = req.params.model;
+    var bike = req.params.bike;
     if (bike > bikes.length) {
         console.log('You cannot delete that which was never there...');
     } else {
