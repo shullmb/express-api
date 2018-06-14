@@ -36,7 +36,6 @@ app.get('/bikes/:bike', function(req,res) {
     var bikes = JSON.parse(fs.readFileSync('./data.json'));
     var bike = req.params.model;
     if (bike > bikes.length) {
-        console.log('That is not a valid bike model to show');
         res.send('That is not a valid bike model to show');
     } else {
         res.json({bike: bikes[bike]});
@@ -48,7 +47,6 @@ app.put('/bikes/:bike', function(req,res) {
     var bikes = JSON.parse(fs.readFileSync('./data.json'));
     var bike = req.params.bike;
     if (bike > bikes.length) {
-        console.log('That is not a valid bike model to update');
         res.send('That is not a valid bike model to update');
     } else {
         bikes[bike] = {brand: req.body.brand, model: req.body.model};
@@ -62,7 +60,6 @@ app.delete('/bikes/:bike', function(req,res) {
     var bikes = JSON.parse(fs.readFileSync('./data.json'));
     var bike = req.params.bike;
     if (bike > bikes.length) {
-        console.log('You cannot delete that which was never there...');
         res.send('You cannot delete that which was never there...');
     } else {
         bikes.splice(bike,1);
