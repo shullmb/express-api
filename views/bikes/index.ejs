@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Index Page</title>
+    </head>
+    <body>
+        <h1>All the bikes: </h1>
+        <ul>
+            <% bikes.forEach( function(bike) { %>
+            <li><%= bike.model %>, <%= bike.brand %></li>
+            <% }) %>
+        </ul>
+    </body>
+</html>
