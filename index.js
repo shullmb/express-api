@@ -34,13 +34,19 @@ app.post('/bikes', function(req,res) {
 // GET /bikes/:bike - show a specific bike
 app.get('/bikes/:bike', function(req,res) {
     var bikes = JSON.parse(fs.readFileSync('./data.json'));
-    var bike = req.params.model;
+    var bike = req.params.bike;
     if (bike > bikes.length) {
         res.send('That is not a valid bike model to show');
     } else {
-        res.json({bike: bikes[bike]});
+        res.json(bikes[bike]);
     }
 })
+
+// GET /bikes/:bike/edit - get specific bike to update
+app.get('/bikes/:bike/edit', function(req,res) {
+
+})
+
 
 // PUT /bikes/:bike - update a specific bike
 app.put('/bikes/:bike', function(req,res) {
@@ -63,7 +69,6 @@ app.delete('/bikes/:bike', function(req,res) {
         res.send('You cannot delete that which was never there...');
     } else {
         bikes.splice(bike,1);
-        console.log(bikes);
         fs.writeFileSync('./data.json', JSON.stringify(bikes));
         res.json(bikes);
     }
